@@ -53,3 +53,9 @@ tar -czf backup-files-and-db.tar.gz backup
 
 #5 Delete the backup directory
 rm -rf backup
+
+#6 Create result directory
+mkdir result
+
+#7 Move the backup into the result directory
+mv backup-files-and-db.tar.gz result/
