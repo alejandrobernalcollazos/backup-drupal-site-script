@@ -2,7 +2,6 @@
 
 #Define the usage text
 USAGE="
-
        $(basename "$0") 
 
        Program to backup drupal website
