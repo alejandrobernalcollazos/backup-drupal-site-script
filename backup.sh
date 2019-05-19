@@ -1,8 +1,16 @@
 #!/bin/bash
 
+#Define date
+CURRENT_DATE=`date +"%d-%b-%Y"`
+RESULT_FOLDER=result-$CURRENT_DATE
+DB_FILE=backup-db-$CURRENT_DATE
+FILES=files-$CURRENT_DATE
+TEMPORAL_DIRECTORY=backup
+FILES_AND_DB=backup-files-and-db-$CURRENT_DATE
+
 #Define the usage text
 USAGE="
-       $(basename "$0") 
+       $(basename "$0")
 
        Program to backup drupal website
 
@@ -40,22 +48,22 @@ done
 
 #Steps
 #1 Create backup directory
-mkdir backup
+mkdir $TEMPORAL_DIRECTORY
 
 #2 Backup the database and set it within the backup directory
-mysqldump -u$USER -p$USER_PASSWORD $DATABASE > backup/drupal.db
+mysqldump -u$USER -p$USER_PASSWORD $DATABASE > $TEMPORAL_DIRECTORY/$DB_FILE.sql
 
 #3 Backup the files and set them within the backup directory
-tar -czf ./backup/backup-files.tar.gz -C $FOLDER .
+tar -czf ./$TEMPORAL_DIRECTORY/$FILES.tar.gz -C $FOLDER .
 
 #4 Tar the backup directory
-tar -czf backup-files-and-db.tar.gz backup
+tar -czf $FILES_AND_DB.tar.gz $TEMPORAL_DIRECTORY
 
 #5 Delete the backup directory
-rm -rf backup
+rm -rf $TEMPORAL_DIRECTORY
 
 #6 Create result directory
-mkdir result
+mkdir $RESULT_FOLDER
 
 #7 Move the backup into the result directory
-mv backup-files-and-db.tar.gz result/
+mv $FILES_AND_DB.tar.gz $RESULT_FOLDER
